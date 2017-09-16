@@ -1,0 +1,37 @@
+{
+  "name": "storely",
+  "version": "0.0.1",
+  "description": "A zero bs reactive storage.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lifenautjoe/storely.git"
+  },
+  "keywords": [
+    "storage",
+    "reactive",
+    "reactive-storage",
+    "events",
+    "event-emitter",
+    "eventemitter",
+    "evented-storage",
+    "evented",
+    "store",
+    "storely",
+    "local-storage",
+    "session-storage",
+    "umd"
+  ],
+  "author": "Joel Hernandez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lifenautjoe/storely/issues"
+  },
+  "homepage": "https://github.com/lifenautjoe/storely#readme"
+}
