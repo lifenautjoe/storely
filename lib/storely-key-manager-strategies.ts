@@ -1,19 +1,19 @@
 /**
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
-import {IStorely, IStorelyKeyManagerStrategy, IStorelyKeyManagerConfig} from './storely-interfaces';
+import {StorelyStore, StorelyKeyManagerStrategy, StorelyStoreKeyManagerConfig} from './storely-interfaces';
 import {StorelyKeyManagerConfigurationError} from './storely-errors';
 import {KeyValueChangedListener, KeyValueRemovedListener} from './storely-types';
 
 
 /**
- * Manages a key by wrapping the calls to storely
+ * Manages a key by wrapping the calls to the storely store
  */
-export class WrapperKeyManager implements IStorelyKeyManagerStrategy {
-    private storely: IStorely;
+export class StorelyKeyManagerImp implements StorelyKeyManagerStrategy {
+    private storely: StorelyStore;
     private key: string;
 
-    constructor(config: IStorelyKeyManagerConfig) {
+    constructor(config: StorelyStoreKeyManagerConfig) {
         if (!config.storely) throw new StorelyKeyManagerConfigurationError('config.storely is required');
         this.storely = config.storely;
         if (!config.key) throw new StorelyKeyManagerConfigurationError('config.key is required');

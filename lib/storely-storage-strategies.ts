@@ -1,9 +1,9 @@
 /**
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
-import {IStorelyStoreStrategy} from './storely-interfaces';
+import {StorelyStorageStrategy} from './storely-interfaces';
 
-export class ObjectStoreStrategy implements IStorelyStoreStrategy {
+export class ObjectStorageStrategy implements StorelyStorageStrategy {
     private store: Object;
 
     constructor(store: Object) {

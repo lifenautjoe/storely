@@ -2,12 +2,12 @@
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
 
-import {IStorelyEventDispatchStrategy} from './storely-interfaces';
+import {StorelyEventDispatchStrategy} from './storely-interfaces';
 import {EventDispatchStrategyListener, EventListenerRemover} from './storely-types';
 
 import {EventEmitter} from 'eventemitter3';
 
-export class EventEmitterDispatchStrategy implements IStorelyEventDispatchStrategy {
+export class EventEmitterDispatchStrategy implements StorelyEventDispatchStrategy {
     private eventEmitter;
 
     constructor() {

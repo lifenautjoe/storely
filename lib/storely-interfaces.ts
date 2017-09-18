@@ -10,7 +10,7 @@ import {
 } from './storely-types';
 
 
-export interface IStorely {
+export interface StorelyStore {
     set(key: string, value: any);
 
     remove(key: string): void;
@@ -31,7 +31,7 @@ export interface IStorely {
 
     onChanged(clearedListener: ChangedListener): EventListenerRemover;
 
-    getKeyManagerForKey(key: string): IStorelyKeyManagerStrategy;
+    getKeyManagerForKey(key: string): StorelyKeyManagerStrategy;
 
     mergeEventRemovers(...eventRemovers: Array<EventListenerRemover>): EventListenerRemover;
 }
@@ -39,7 +39,7 @@ export interface IStorely {
 /**
  * Manages an specific key within storely
  */
-export interface IStorelyKeyManagerStrategy {
+export interface StorelyKeyManager {
     set(value: any);
 
     getOrSet(value: any): any;
@@ -53,25 +53,31 @@ export interface IStorelyKeyManagerStrategy {
     onValueRemoved(keyValueRemovedListener: KeyValueRemovedListener);
 }
 
-export interface IStorelyConfig {
+export interface StorelyKeyManagerStrategy extends StorelyKeyManager {
+
+}
+
+
+export interface StorelyStoreConfig {
     namespace?: string;
-    eventDispatchStrategy: IStorelyEventDispatchStrategy;
-    storeStrategy: IStorelyStoreStrategy;
-    valueChangeDetectionStrategy: IStorelyValueChangeDetectionStrategy;
+    eventDispatchStrategy: StorelyEventDispatchStrategy;
+    storageStrategy: StorelyStorageStrategy;
+    valueChangeDetectionStrategy: StorelyValueChangeDetectionStrategy;
     keyManagerStrategyConstructor: any;
 }
 
-export interface IStorelyValueChangeDetectionStrategy {
+export interface StorelyValueChangeDetectionStrategy {
     valueChanged(newValue: any, oldValue: any): boolean;
 }
 
-export interface IStorelyEventDispatchStrategy {
+export interface StorelyEventDispatchStrategy {
     emit(eventIdentifier: string, ...eventData): void;
 
     on(eventIdentifier: string, listener: EventDispatchStrategyListener): EventListenerRemover;
 }
 
-export interface IStorelyStoreStrategy {
+// Yeah.. I know...
+export interface StorelyStorageStrategy {
 
     getAll(): Object;
 
@@ -89,24 +95,24 @@ export interface IStorelyStoreStrategy {
 /**
  * I could not find a way to specify a constructor type for an interface
  */
-export interface IStorelyFactoryConfig {
+export interface StorelyStoreFactoryConfig {
     namespace?: string;
     eventDispatchStrategyConstructor: any;
-    storeStrategyConstructor: any;
+    storageStrategyConstructor: any;
     valueChangeDetectionStrategyConstructor: any;
     keyManagerStrategyConstructor: any;
 }
 
 
-export interface IStorelyFactoryMakeConfig {
+export interface StorelyStoreFactoryMakeConfig {
     namespace?: string;
-    eventDispatchStrategy?: IStorelyEventDispatchStrategy;
-    storeStrategy?: IStorelyStoreStrategy;
-    valueChangeDetectionStrategy?: IStorelyValueChangeDetectionStrategy;
+    eventDispatchStrategy?: StorelyEventDispatchStrategy;
+    storageStrategy?: StorelyStorageStrategy;
+    valueChangeDetectionStrategy?: StorelyValueChangeDetectionStrategy;
     keyManagerStrategyConstructor?: any;
 }
 
-export interface IStorelyKeyManagerConfig {
-    storely: IStorely;
+export interface StorelyStoreKeyManagerConfig {
+    storely: StorelyStore;
     key: string;
 }
