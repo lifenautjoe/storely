@@ -2,15 +2,15 @@
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
 
-export class StorelyConfigurationError extends Error {
+export class StorelyError extends Error {
 
 }
 
-export class StorelyConfigurationError extends Error {
+export class StorelyConfigurationError extends StorelyError {
 
 }
 
 
-export class StorelyKeyManagerConfigurationError extends Error {
+export class StorelyKeyManagerConfigurationError extends StorelyError {
 
 }
