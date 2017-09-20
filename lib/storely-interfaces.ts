@@ -104,7 +104,7 @@ export interface StorelyStoreFactoryConfig {
 }
 
 
-export interface StorelyStoreFactoryMakeConfig {
+export interface StorelyMakeConfig {
     namespace?: string;
     eventDispatchStrategy?: StorelyEventDispatchStrategy;
     storageStrategy?: StorelyStorageStrategy;

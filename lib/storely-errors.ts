@@ -6,7 +6,7 @@ export class StorelyConfigurationError extends Error {
 
 }
 
-export class StorelyFactoryConfigurationError extends Error {
+export class StorelyConfigurationError extends Error {
 
 }
 

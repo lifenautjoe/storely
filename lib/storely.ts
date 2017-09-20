@@ -1,8 +1,8 @@
 /**
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
-import {StorelyStoreFactoryMakeConfig, StorelyStoreFactoryConfig, StorelyStore} from './storely-interfaces';
-import {StorelyFactoryConfigurationError} from './storely-errors';
+import {StorelyMakeConfig, StorelyStoreFactoryConfig, StorelyStore} from './storely-interfaces';
+import {StorelyConfigurationError} from './storely-errors';
 import {StorelyStoreImp} from './storely-stores';
 import {EventEmitterDispatchStrategy} from './storely-event-dispatch-strategies';
 import {EqualityValueChangeDetection} from './storely-value-change-detection-strategies';
@@ -14,7 +14,7 @@ export class Storely {
     private storelyStoreDefaultConfig: StorelyStoreFactoryConfig;
 
     private constructor(config: StorelyStoreFactoryConfig) {
-        if (!config) throw new StorelyFactoryConfigurationError('config is required. Are you sure you should be using new on this?');
+        if (!config) throw new StorelyConfigurationError('config is required. Are you sure you should be using new on this?');
         this.storelyStoreDefaultConfig = config;
     }
 
@@ -32,13 +32,13 @@ export class Storely {
         });
     }
 
-    static getStore(configOverride?: StorelyStoreFactoryMakeConfig): StorelyStore {
+    static getStore(configOverride?: StorelyMakeConfig): StorelyStore {
         const storelySingleton = this.getSingleton();
         return storelySingleton.getStore(configOverride);
     }
 
-    private getStore(configOverride?: StorelyStoreFactoryMakeConfig): StorelyStore {
-        const config: StorelyStoreFactoryMakeConfig = configOverride || {};
+    private getStore(configOverride?: StorelyMakeConfig): StorelyStore {
+        const config: StorelyMakeConfig = configOverride || {};
 
         if (!config.valueChangeDetectionStrategy) {
             config.valueChangeDetectionStrategy = new this.storelyStoreDefaultConfig.valueChangeDetectionStrategyConstructor();
@@ -47,7 +47,6 @@ export class Storely {
         if (!config.storageStrategy) {
             config.storageStrategy = new this.storelyStoreDefaultConfig.storageStrategyConstructor();
         }
-
         if (!config.eventDispatchStrategy) {
             config.eventDispatchStrategy = new this.storelyStoreDefaultConfig.eventDispatchStrategyConstructor();
         }
@@ -69,3 +68,4 @@ export class Storely {
         });
     }
 }
+
