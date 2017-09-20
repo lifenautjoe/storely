@@ -1,6 +1,6 @@
 import {
     StorelyEventDispatchStrategy, StorelyStore, StorelyStorageStrategy,
-    StorelyValueChangeDetectionStrategy, StorelyStoreConfig, StorelyKeyManagerStrategy, StorelyStoreKeyManagerConfig
+    StorelyValueChangeDetectionStrategy, StorelyStoreConfig, StorelyKeyManagerStrategy, StorelyStoreKeyManagerConfig, StorelyStoreGetConfig
 } from './storely-interfaces';
 import {StorelyConfigurationError} from './storely-errors';
 import {
@@ -67,16 +67,15 @@ export class StorelyStoreImp implements StorelyStore {
         }
     }
 
-    getOrSet(key: string, value: any) {
-        const existingValue = this.get(key);
-        if (existingValue) return existingValue;
-        this.set(key, value);
-        return value;
-    }
-
-    get(key: string): any {
+    get(key: string, config?: StorelyStoreGetConfig): any {
         const namespacedKey = this.namespace + key;
-        return this.getFromStore(namespacedKey);
+        const existingValue = this.getFromStore(namespacedKey);
+        if (existingValue) return existingValue;
+        if (config && config.defaultValue) {
+            const defaultValue = config.defaultValue;
+            this.set(key, defaultValue);
+            return defaultValue;
+        }
     }
 
     getAll(): Object {

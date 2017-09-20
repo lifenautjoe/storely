@@ -1,7 +1,7 @@
 /**
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
-import {StorelyStore, StorelyKeyManagerStrategy, StorelyStoreKeyManagerConfig} from './storely-interfaces';
+import {StorelyStore, StorelyKeyManagerStrategy, StorelyStoreKeyManagerConfig, StorelyStoreGetConfig} from './storely-interfaces';
 import {StorelyKeyManagerConfigurationError} from './storely-errors';
 import {KeyValueChangedListener, KeyValueRemovedListener} from './storely-types';
 
@@ -20,12 +20,8 @@ export class StorelyKeyManagerImp implements StorelyKeyManagerStrategy {
         this.key = config.key;
     }
 
-    getOrSet(value: any): any {
-        return this.storely.getOrSet(this.key, value);
-    }
-
-    get(): any {
-        return this.storely.get(this.key);
+    get(config?: StorelyStoreGetConfig): any {
+        return this.storely.get(this.key, config);
     }
 
     set(value: any): any {

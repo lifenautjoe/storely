@@ -15,9 +15,7 @@ export interface StorelyStore {
 
     remove(key: string): void;
 
-    get(key: string): any;
-
-    getOrSet(key: string, value: any): any;
+    get(key: string, config?: StorelyStoreGetConfig): any;
 
     getAll(): Object;
 
@@ -42,9 +40,7 @@ export interface StorelyStore {
 export interface StorelyKeyManager {
     set(value: any);
 
-    getOrSet(value: any): any;
-
-    get(): any;
+    get(config?: StorelyStoreGetConfig): any;
 
     remove(): void;
 
@@ -115,4 +111,8 @@ export interface StorelyMakeConfig {
 export interface StorelyStoreKeyManagerConfig {
     storely: StorelyStore;
     key: string;
+}
+
+export interface StorelyStoreGetConfig {
+    defaultValue?: any;
 }
