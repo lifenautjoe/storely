@@ -70,8 +70,8 @@ export class StorelyStoreImp implements StorelyStore {
     get(key: string, config?: StorelyStoreGetConfig): any {
         const namespacedKey = this.namespace + key;
         const existingValue = this.getFromStore(namespacedKey);
-        if (existingValue) return existingValue;
-        if (config && config.defaultValue) {
+        if (typeof existingValue !== 'undefined') return existingValue;
+        if (config && typeof config.defaultValue !== 'undefined') {
             const defaultValue = config.defaultValue;
             this.set(key, defaultValue);
             return defaultValue;
