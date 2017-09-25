@@ -8,7 +8,7 @@ It will be formally published when the project goes live.
 
 ## Motivation
 
-I am **sick** and **tired** of the **overly complex, overly-engineered** frameworks and tools that the JavaScript community is drowning upon to build event driven applications (rective applications if you're into buzz words).
+I am **sick** and **tired** of the **overly complex, overly-engineered** frameworks and tools that the JavaScript community is drowning upon to manage application states/data.
 
 I created this library originally in plain vanilla JavaScript back in angular 1.2 and have been using it to create simple yet scalable applications such as [KPN's](https://en.wikipedia.org/wiki/KPN), The Netherlands largest telecom [webshop](www.kpn.com/ganesha.html).
 
