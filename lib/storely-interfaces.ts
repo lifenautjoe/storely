@@ -11,7 +11,7 @@ import {
 
 
 export interface StorelyStore {
-    set(key: string, value: any);
+    set(key: string, value: any, config?: StorelyStoreSetConfig);
 
     remove(key: string): void;
 
@@ -29,7 +29,7 @@ export interface StorelyStore {
 
     onChanged(clearedListener: ChangedListener): EventListenerRemover;
 
-    getKeyManagerForKey(key: string): StorelyKeyManagerStrategy;
+    getManagerForKey(key: string): StorelyKeyManagerStrategy;
 
     mergeEventRemovers(...eventRemovers: Array<EventListenerRemover>): EventListenerRemover;
 }
@@ -38,7 +38,7 @@ export interface StorelyStore {
  * Manages an specific key within storely
  */
 export interface StorelyKeyManager {
-    set(value: any);
+    set(value: any, config?: StorelyStoreSetConfig);
 
     get(config?: StorelyStoreGetConfig): any;
 
@@ -115,4 +115,8 @@ export interface StorelyStoreKeyManagerConfig {
 
 export interface StorelyStoreGetConfig {
     defaultValue?: any;
+}
+
+export interface StorelyStoreSetConfig {
+    shouldEmit?: boolean;
 }

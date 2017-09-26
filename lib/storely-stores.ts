@@ -107,7 +107,7 @@ export class StorelyStoreImp implements StorelyStore {
         return this.eventDispatchStrategy.on(this.constants.events.CHANGED, changedListener);
     }
 
-    getKeyManagerForKey(key: string): StorelyKeyManagerStrategy {
+    getManagerForKey(key: string): StorelyKeyManagerStrategy {
         return new this.keyManagerStrategyConstructor({
             storely: this,
             key
