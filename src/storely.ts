@@ -9,8 +9,8 @@ import {EqualityValueChangeDetection} from './storely-value-change-detection-str
 import {ObjectStorageStrategy} from './storely-storage-strategies';
 import {StorelyManagerStrategyImp} from './storely-manager-strategies';
 
-export class Storely {
-    private static storelySingleton: Storely;
+export class Storely<StorelySingletonClass = Storely> {
+    private static storelySingleton: StorelySingletonClass;
     private storelyStoreDefaultConfig: StorelyStoreFactoryConfig;
 
     private constructor(config: StorelyStoreFactoryConfig) {
@@ -18,12 +18,12 @@ export class Storely {
         this.storelyStoreDefaultConfig = config;
     }
 
-    private static getSingleton() {
+    private static getSingleton(): StorelySingletonClass {
         if (this.storelySingleton) return this.storelySingleton;
         return (this.storelySingleton = Storely.makeSingleton());
     }
 
-    private static makeSingleton() {
+    private static makeSingleton(): StorelySingletonClass {
         return new Storely({
             eventDispatchStrategyConstructor: EventEmitterDispatchStrategy,
             valueChangeDetectionStrategyConstructor: EqualityValueChangeDetection,
