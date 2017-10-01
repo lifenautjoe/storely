@@ -10,7 +10,7 @@ import {
 } from './storely-types';
 
 
-export interface StorelyStore {
+export interface StorelyStore extends StorelyEventDispatchStrategy {
     set(key: string, value: any, config?: StorelyStoreSetConfig);
 
     remove(key: string): void;

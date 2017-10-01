@@ -1,6 +1,12 @@
 import {
-    StorelyEventDispatchStrategy, StorelyStore, StorelyStorageStrategy,
-    StorelyValueChangeDetectionStrategy, StorelyStoreConfig, StorelyManagerStrategy, StorelyStoreKeyManagerConfig, StorelyStoreGetConfig
+    StorelyEventDispatchStrategy,
+    StorelyStore,
+    StorelyStorageStrategy,
+    StorelyValueChangeDetectionStrategy,
+    StorelyStoreConfig,
+    StorelyManagerStrategy,
+    StorelyStoreKeyManagerConfig,
+    StorelyStoreGetConfig
 } from './storely-interfaces';
 import {StorelyConfigurationError} from './storely-errors';
 import {
@@ -8,18 +14,13 @@ import {
     ChangedListener,
     EventListenerRemover,
     KeyValueChangedListener,
-    KeyValueRemovedListener
+    KeyValueRemovedListener, EventDispatchStrategyListener
 } from './storely-types';
 
 export class StorelyStoreImp implements StorelyStore {
-    private keyManagerStrategyConstructor: new (config: StorelyStoreKeyManagerConfig) => StorelyManagerStrategy;
-    private storageStrategy: StorelyStorageStrategy;
-    private eventDispatchStrategy: StorelyEventDispatchStrategy;
-    private valueChangeDetectionStrategy: StorelyValueChangeDetectionStrategy;
-    private namespace: string;
-
-    readonly constants = {
+    private static readonly constants = {
         events: {
+            CUSTOM_PREFIX: 'customEvent',
             CHANGED: 'wasChanged',
             CLEARED: 'wasCleared',
             value: {
@@ -28,6 +29,11 @@ export class StorelyStoreImp implements StorelyStore {
             }
         }
     };
+    private keyManagerStrategyConstructor: new (config: StorelyStoreKeyManagerConfig) => StorelyManagerStrategy;
+    private storageStrategy: StorelyStorageStrategy;
+    private eventDispatchStrategy: StorelyEventDispatchStrategy;
+    private valueChangeDetectionStrategy: StorelyValueChangeDetectionStrategy;
+    private namespace: string;
 
     constructor(config: StorelyStoreConfig) {
         if (!config.storageStrategy) throw new StorelyConfigurationError('config.storageStrategy is required');
@@ -100,11 +106,11 @@ export class StorelyStoreImp implements StorelyStore {
     }
 
     onCleared(clearedListener: ClearedListener): EventListenerRemover {
-        return this.eventDispatchStrategy.on(this.constants.events.CLEARED, clearedListener);
+        return this.eventDispatchStrategy.on(StorelyStoreImp.constants.events.CLEARED, clearedListener);
     }
 
     onChanged(changedListener: ChangedListener): EventListenerRemover {
-        return this.eventDispatchStrategy.on(this.constants.events.CHANGED, changedListener);
+        return this.eventDispatchStrategy.on(StorelyStoreImp.constants.events.CHANGED, changedListener);
     }
 
     getManager(key: string): StorelyManagerStrategy {
@@ -118,6 +124,20 @@ export class StorelyStoreImp implements StorelyStore {
         return () => {
             eventRemovers.forEach(eventRemover => eventRemover());
         };
+    }
+
+    emit(eventIdentifier: string, ...eventData): void {
+        const eventName = this.makeCustomEventIdentifier(eventIdentifier);
+        this.eventDispatchStrategy.emit(eventName, ...eventData);
+    }
+
+    on(eventIdentifier: string, listener: EventDispatchStrategyListener): EventListenerRemover {
+        const eventName = this.makeCustomEventIdentifier(eventIdentifier);
+        return this.eventDispatchStrategy.on(eventName, listener);
+    }
+
+    private makeCustomEventIdentifier(eventName: string): string {
+        return `${StorelyStoreImp.constants.events.CUSTOM_PREFIX}-${eventName}`;
     }
 
     /**
@@ -157,13 +177,13 @@ export class StorelyStoreImp implements StorelyStore {
     }
 
     private emitCleared(): void {
-        const eventIdentifier = this.constants.events.CLEARED;
+        const eventIdentifier = StorelyStoreImp.constants.events.CLEARED;
         this.eventDispatchStrategy.emit(eventIdentifier);
         this.emitChanged();
     }
 
     private emitChanged(): void {
-        const eventIdentifier = this.constants.events.CHANGED;
+        const eventIdentifier = StorelyStoreImp.constants.events.CHANGED;
         this.eventDispatchStrategy.emit(eventIdentifier);
     }
 
@@ -182,10 +202,10 @@ export class StorelyStoreImp implements StorelyStore {
     }
 
     private makeKeyValueChangedEventIdentifier(key) {
-        return `${key}.${this.constants.events.value.CHANGED}`;
+        return `${key}.${StorelyStoreImp.constants.events.value.CHANGED}`;
     }
 
     private makeKeyValueRemovedEventIdentifier(key) {
-        return `${key}.${this.constants.events.value.REMOVED}`;
+        return `${key}.${StorelyStoreImp.constants.events.value.REMOVED}`;
     }
 }
