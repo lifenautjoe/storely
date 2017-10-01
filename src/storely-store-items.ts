@@ -18,7 +18,7 @@ export class StorelyStoreItemImp implements StorelyStoreItem {
         this.storely = config.storely;
         if (!config.key) throw new StorelyManagerConfigurationError('config.key is required');
         this.key = config.key;
-        if (typeof config.defaultValue !== 'undefined') this.setValue(config.defaultValue);
+        if (typeof config.defaultValue !== 'undefined' && typeof this.getValue() === 'undefined') this.setValue(config.defaultValue);
     }
 
     getValue(config?: StorelyStoreGetConfig): any {
