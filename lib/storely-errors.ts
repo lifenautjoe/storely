@@ -11,6 +11,6 @@ export class StorelyConfigurationError extends StorelyError {
 }
 
 
-export class StorelyKeyManagerConfigurationError extends StorelyError {
+export class StorelyManagerConfigurationError extends StorelyError {
 
 }

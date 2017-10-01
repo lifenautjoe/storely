@@ -1,6 +1,6 @@
 import {
     StorelyEventDispatchStrategy, StorelyStore, StorelyStorageStrategy,
-    StorelyValueChangeDetectionStrategy, StorelyStoreConfig, StorelyKeyManagerStrategy, StorelyStoreKeyManagerConfig, StorelyStoreGetConfig
+    StorelyValueChangeDetectionStrategy, StorelyStoreConfig, StorelyManagerStrategy, StorelyStoreKeyManagerConfig, StorelyStoreGetConfig
 } from './storely-interfaces';
 import {StorelyConfigurationError} from './storely-errors';
 import {
@@ -12,7 +12,7 @@ import {
 } from './storely-types';
 
 export class StorelyStoreImp implements StorelyStore {
-    private keyManagerStrategyConstructor: new (config: StorelyStoreKeyManagerConfig) => StorelyKeyManagerStrategy;
+    private keyManagerStrategyConstructor: new (config: StorelyStoreKeyManagerConfig) => StorelyManagerStrategy;
     private storageStrategy: StorelyStorageStrategy;
     private eventDispatchStrategy: StorelyEventDispatchStrategy;
     private valueChangeDetectionStrategy: StorelyValueChangeDetectionStrategy;
@@ -107,7 +107,7 @@ export class StorelyStoreImp implements StorelyStore {
         return this.eventDispatchStrategy.on(this.constants.events.CHANGED, changedListener);
     }
 
-    getManagerForKey(key: string): StorelyKeyManagerStrategy {
+    getManager(key: string): StorelyManagerStrategy {
         return new this.keyManagerStrategyConstructor({
             storely: this,
             key

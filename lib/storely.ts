@@ -7,7 +7,7 @@ import {StorelyStoreImp} from './storely-stores';
 import {EventEmitterDispatchStrategy} from './storely-event-dispatch-strategies';
 import {EqualityValueChangeDetection} from './storely-value-change-detection-strategies';
 import {ObjectStorageStrategy} from './storely-storage-strategies';
-import {StorelyKeyManagerImp} from './storely-key-manager-strategies';
+import {StorelyManagerStrategyImp} from './storely-manager-strategies';
 
 export class Storely {
     private static storelySingleton: Storely;
@@ -28,7 +28,7 @@ export class Storely {
             eventDispatchStrategyConstructor: EventEmitterDispatchStrategy,
             valueChangeDetectionStrategyConstructor: EqualityValueChangeDetection,
             storageStrategyConstructor: ObjectStorageStrategy,
-            keyManagerStrategyConstructor: StorelyKeyManagerImp
+            keyManagerStrategyConstructor: StorelyManagerStrategyImp
         });
     }
 

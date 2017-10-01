@@ -11,3 +11,10 @@ export class EqualityValueChangeDetection implements StorelyValueChangeDetection
         return newValue !== previousValue;
     }
 }
+
+/*
+export class StringifyValueChangeDetection implements StorelyValueChangeDetectionStrategy {
+    valueChanged(newValue: any, previousValue: any) {
+
+    }
+}*/
