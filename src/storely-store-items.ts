@@ -18,14 +18,14 @@ export class StorelyStoreItemImp implements StorelyStoreItem {
         this.storely = config.storely;
         if (!config.key) throw new StorelyManagerConfigurationError('config.key is required');
         this.key = config.key;
-        if (typeof config.defaultValue !== 'undefined') this.set(config.defaultValue);
+        if (typeof config.defaultValue !== 'undefined') this.setValue(config.defaultValue);
     }
 
-    get(config?: StorelyStoreGetConfig): any {
+    getValue(config?: StorelyStoreGetConfig): any {
         return this.storely.get(this.key, config);
     }
 
-    set(value: any, config?: StorelyStoreSetConfig): any {
+    setValue(value: any, config?: StorelyStoreSetConfig): any {
         this.storely.set(this.key, value, config);
     }
 
@@ -33,12 +33,12 @@ export class StorelyStoreItemImp implements StorelyStoreItem {
         this.storely.remove(this.key);
     }
 
-    onChanged(listener: KeyValueChangedListener) {
+    onValueChanged(listener: KeyValueChangedListener) {
         return this.storely.onItemValueChanged(this.key, listener);
     }
 
     onRemoved(listener: KeyValueRemovedListener) {
-        return this.storely.onItemValueRemoved(this.key, listener);
+        return this.storely.onItemRemoved(this.key, listener);
     }
 }
 

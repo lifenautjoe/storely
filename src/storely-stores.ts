@@ -98,7 +98,7 @@ export class StorelyStoreImp implements StorelyStore {
         return this.eventDispatchStrategy.on(eventIdentifier, keyValueChangedListener);
     }
 
-    onItemValueRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover {
+    onItemRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover {
         const namespacedKey = this.namespace + key;
         const eventIdentifier = this.makeKeyValueRemovedEventIdentifier(namespacedKey);
         return this.eventDispatchStrategy.on(eventIdentifier, keyValueRemovedListener);

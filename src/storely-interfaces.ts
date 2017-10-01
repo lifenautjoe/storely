@@ -17,13 +17,11 @@ export interface StorelyStore extends StorelyEventDispatchStrategy {
 
     get(key: string, config?: StorelyStoreGetConfig): any;
 
-    getAll(): Object;
-
     clear(): void;
 
     onItemValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover;
 
-    onItemValueRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover;
+    onItemRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover;
 
     onCleared(clearedListener: ClearedListener): EventListenerRemover;
 
@@ -38,13 +36,13 @@ export interface StorelyStore extends StorelyEventDispatchStrategy {
  * Manages an specific key within storely
  */
 export interface StorelyStoreItem {
-    set(value: any, config?: StorelyStoreSetConfig);
+    setValue(value: any, config?: StorelyStoreSetConfig);
 
-    get(config?: StorelyStoreGetConfig): any;
+    getValue(config?: StorelyStoreGetConfig): any;
 
     remove(): void;
 
-    onChanged(keyValueChangedListener: KeyValueChangedListener);
+    onValueChanged(keyValueChangedListener: KeyValueChangedListener);
 
     onRemoved(keyValueRemovedListener: KeyValueRemovedListener);
 }
