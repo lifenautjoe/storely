@@ -9,8 +9,8 @@ import {
 } from './storely-interfaces';
 import {StorelyConfigurationError} from './storely-errors';
 import {
-    ClearedListener,
-    ChangedListener,
+    ClearListener,
+    ChangeListener,
     EventListenerRemover,
     KeyValueChangedListener,
     KeyValueRemovedListener, EventDispatchStrategyListener
@@ -92,7 +92,11 @@ export class StorelyStoreImp implements StorelyStore {
         if (config.shouldEmit) this.emitCleared();
     }
 
-    onItemValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover {
+    onItemValueChange(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover {
+        // Bootstrap listener
+        const keyValue = this.get(key);
+        if (typeof keyValue !== 'undefined') keyValueChangedListener(keyValue, undefined);
+
         const namespacedKey = this.namespace + key;
         const eventIdentifier = this.makeKeyValueChangedEventIdentifier(namespacedKey);
         return this.eventDispatchStrategy.on(eventIdentifier, keyValueChangedListener);
@@ -104,11 +108,11 @@ export class StorelyStoreImp implements StorelyStore {
         return this.eventDispatchStrategy.on(eventIdentifier, keyValueRemovedListener);
     }
 
-    onCleared(clearedListener: ClearedListener): EventListenerRemover {
+    onClear(clearedListener: ClearListener): EventListenerRemover {
         return this.eventDispatchStrategy.on(StorelyStoreImp.constants.events.CLEARED, clearedListener);
     }
 
-    onChanged(changedListener: ChangedListener): EventListenerRemover {
+    onChange(changedListener: ChangeListener): EventListenerRemover {
         return this.eventDispatchStrategy.on(StorelyStoreImp.constants.events.CHANGED, changedListener);
     }
 

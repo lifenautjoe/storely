@@ -11,8 +11,8 @@ export type KeyValueChangedListener = (newValue: any, oldValue: any) => void;
 
 export type KeyValueRemovedListener = (lastValue: any) => void;
 
-export type ClearedListener = () => void;
+export type ClearListener = () => void;
 
-export type ChangedListener = () => void;
+export type ChangeListener = () => void;
 
 export type EventDispatchStrategyListener = (...args: Array<any>) => void;

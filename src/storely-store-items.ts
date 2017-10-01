@@ -33,11 +33,11 @@ export class StorelyStoreItemImp implements StorelyStoreItem {
         this.storely.remove(this.key);
     }
 
-    onValueChanged(listener: KeyValueChangedListener) {
-        return this.storely.onItemValueChanged(this.key, listener);
+    onValueChange(listener: KeyValueChangedListener) {
+        return this.storely.onItemValueChange(this.key, listener);
     }
 
-    onRemoved(listener: KeyValueRemovedListener) {
+    onRemove(listener: KeyValueRemovedListener) {
         return this.storely.onItemRemoved(this.key, listener);
     }
 }

@@ -2,8 +2,8 @@
  * @author Joel Hernandez <lifenautjoe@gmail.com>
  */
 import {
-    ClearedListener,
-    ChangedListener,
+    ClearListener,
+    ChangeListener,
     EventListenerRemover,
     KeyValueChangedListener,
     KeyValueRemovedListener, EventDispatchStrategyListener
@@ -19,13 +19,13 @@ export interface StorelyStore extends StorelyEventDispatchStrategy {
 
     clear(): void;
 
-    onItemValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover;
+    onItemValueChange(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover;
 
     onItemRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover;
 
-    onCleared(clearedListener: ClearedListener): EventListenerRemover;
+    onClear(clearedListener: ClearListener): EventListenerRemover;
 
-    onChanged(clearedListener: ChangedListener): EventListenerRemover;
+    onChange(clearedListener: ChangeListener): EventListenerRemover;
 
     getItem(key: string, config?: StorelyStoreGetConfig): StorelyStoreItem;
 
@@ -42,9 +42,9 @@ export interface StorelyStoreItem {
 
     remove(): void;
 
-    onValueChanged(keyValueChangedListener: KeyValueChangedListener);
+    onValueChange(keyValueChangedListener: KeyValueChangedListener);
 
-    onRemoved(keyValueRemovedListener: KeyValueRemovedListener);
+    onRemove(keyValueRemovedListener: KeyValueRemovedListener);
 }
 
 
