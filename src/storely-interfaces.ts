@@ -21,15 +21,15 @@ export interface StorelyStore extends StorelyEventDispatchStrategy {
 
     clear(): void;
 
-    onKeyValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover;
+    onItemValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover;
 
-    onKeyValueRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover;
+    onItemValueRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover;
 
     onCleared(clearedListener: ClearedListener): EventListenerRemover;
 
     onChanged(clearedListener: ChangedListener): EventListenerRemover;
 
-    getManager(key: string): StorelyManagerStrategy;
+    getItem(key: string, config?: StorelyStoreGetConfig): StorelyStoreItem;
 
     mergeEventRemovers(...eventRemovers: Array<EventListenerRemover>): EventListenerRemover;
 }
@@ -37,20 +37,16 @@ export interface StorelyStore extends StorelyEventDispatchStrategy {
 /**
  * Manages an specific key within storely
  */
-export interface StorelyManager {
+export interface StorelyStoreItem {
     set(value: any, config?: StorelyStoreSetConfig);
 
     get(config?: StorelyStoreGetConfig): any;
 
     remove(): void;
 
-    onValueChanged(keyValueChangedListener: KeyValueChangedListener);
+    onChanged(keyValueChangedListener: KeyValueChangedListener);
 
-    onValueRemoved(keyValueRemovedListener: KeyValueRemovedListener);
-}
-
-export interface StorelyManagerStrategy extends StorelyManager {
-
+    onRemoved(keyValueRemovedListener: KeyValueRemovedListener);
 }
 
 
@@ -59,7 +55,7 @@ export interface StorelyStoreConfig {
     eventDispatchStrategy: StorelyEventDispatchStrategy;
     storageStrategy: StorelyStorageStrategy;
     valueChangeDetectionStrategy: StorelyValueChangeDetectionStrategy;
-    keyManagerStrategyConstructor: any;
+    storeItemConstructor: any;
 }
 
 export interface StorelyValueChangeDetectionStrategy {
@@ -96,7 +92,7 @@ export interface StorelyStoreFactoryConfig {
     eventDispatchStrategyConstructor: any;
     storageStrategyConstructor: any;
     valueChangeDetectionStrategyConstructor: any;
-    keyManagerStrategyConstructor: any;
+    storeItemConstructor: any;
 }
 
 
@@ -105,15 +101,20 @@ export interface StorelyMakeConfig {
     eventDispatchStrategy?: StorelyEventDispatchStrategy;
     storageStrategy?: StorelyStorageStrategy;
     valueChangeDetectionStrategy?: StorelyValueChangeDetectionStrategy;
-    keyManagerStrategyConstructor?: any;
+    storeItemConstructor?: any;
 }
 
-export interface StorelyStoreKeyManagerConfig {
+export interface StorelyStoreItemConfig {
     storely: StorelyStore;
     key: string;
+    defaultValue?: any;
 }
 
 export interface StorelyStoreGetConfig {
+    defaultValue?: any;
+}
+
+export interface StorelyStoreGetItemConfig {
     defaultValue?: any;
 }
 

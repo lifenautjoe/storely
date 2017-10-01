@@ -7,7 +7,7 @@ import {StorelyStoreImp} from './storely-stores';
 import {EventEmitterDispatchStrategy} from './storely-event-dispatch-strategies';
 import {EqualityValueChangeDetection} from './storely-value-change-detection-strategies';
 import {ObjectStorageStrategy} from './storely-storage-strategies';
-import {StorelyManagerStrategyImp} from './storely-manager-strategies';
+import {StorelyStoreItemImp} from './storely-store-items';
 
 export class Storely {
     private static storelySingleton: Storely;
@@ -28,7 +28,7 @@ export class Storely {
             eventDispatchStrategyConstructor: EventEmitterDispatchStrategy,
             valueChangeDetectionStrategyConstructor: EqualityValueChangeDetection,
             storageStrategyConstructor: ObjectStorageStrategy,
-            keyManagerStrategyConstructor: StorelyManagerStrategyImp
+            storeItemConstructor: StorelyStoreItemImp
         });
     }
 
@@ -51,8 +51,8 @@ export class Storely {
             config.eventDispatchStrategy = new this.storelyStoreDefaultConfig.eventDispatchStrategyConstructor();
         }
 
-        if (!config.keyManagerStrategyConstructor) {
-            config.keyManagerStrategyConstructor = this.storelyStoreDefaultConfig.keyManagerStrategyConstructor;
+        if (!config.storeItemConstructor) {
+            config.storeItemConstructor = this.storelyStoreDefaultConfig.storeItemConstructor;
         }
 
         if (!config.namespace) {
@@ -63,7 +63,7 @@ export class Storely {
             eventDispatchStrategy: config.eventDispatchStrategy,
             storageStrategy: config.storageStrategy,
             valueChangeDetectionStrategy: config.valueChangeDetectionStrategy,
-            keyManagerStrategyConstructor: config.keyManagerStrategyConstructor,
+            storeItemConstructor: config.storeItemConstructor,
             namespace: config.namespace
         });
     }

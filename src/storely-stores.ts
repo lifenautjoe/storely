@@ -4,9 +4,8 @@ import {
     StorelyStorageStrategy,
     StorelyValueChangeDetectionStrategy,
     StorelyStoreConfig,
-    StorelyManagerStrategy,
-    StorelyStoreKeyManagerConfig,
-    StorelyStoreGetConfig
+    StorelyStoreItemConfig,
+    StorelyStoreGetConfig, StorelyStoreItem, StorelyStoreGetItemConfig
 } from './storely-interfaces';
 import {StorelyConfigurationError} from './storely-errors';
 import {
@@ -29,7 +28,7 @@ export class StorelyStoreImp implements StorelyStore {
             }
         }
     };
-    private keyManagerStrategyConstructor: new (config: StorelyStoreKeyManagerConfig) => StorelyManagerStrategy;
+    private storeItemConstructor: new (config: StorelyStoreItemConfig) => StorelyStoreItem;
     private storageStrategy: StorelyStorageStrategy;
     private eventDispatchStrategy: StorelyEventDispatchStrategy;
     private valueChangeDetectionStrategy: StorelyValueChangeDetectionStrategy;
@@ -39,8 +38,8 @@ export class StorelyStoreImp implements StorelyStore {
         if (!config.storageStrategy) throw new StorelyConfigurationError('config.storageStrategy is required');
         this.storageStrategy = config.storageStrategy;
 
-        if (!config.keyManagerStrategyConstructor) throw new StorelyConfigurationError('config.keyManagerStrategyConstructor is required');
-        this.keyManagerStrategyConstructor = config.keyManagerStrategyConstructor;
+        if (!config.storeItemConstructor) throw new StorelyConfigurationError('config.storeItemConstructor is required');
+        this.storeItemConstructor = config.storeItemConstructor;
 
         if (!config.eventDispatchStrategy) throw new StorelyConfigurationError('config.eventDispatchStrategy is required');
         this.eventDispatchStrategy = config.eventDispatchStrategy;
@@ -93,13 +92,13 @@ export class StorelyStoreImp implements StorelyStore {
         if (config.shouldEmit) this.emitCleared();
     }
 
-    onKeyValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover {
+    onItemValueChanged(key: string, keyValueChangedListener: KeyValueChangedListener): EventListenerRemover {
         const namespacedKey = this.namespace + key;
         const eventIdentifier = this.makeKeyValueChangedEventIdentifier(namespacedKey);
         return this.eventDispatchStrategy.on(eventIdentifier, keyValueChangedListener);
     }
 
-    onKeyValueRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover {
+    onItemValueRemoved(key: string, keyValueRemovedListener: KeyValueRemovedListener): EventListenerRemover {
         const namespacedKey = this.namespace + key;
         const eventIdentifier = this.makeKeyValueRemovedEventIdentifier(namespacedKey);
         return this.eventDispatchStrategy.on(eventIdentifier, keyValueRemovedListener);
@@ -113,11 +112,12 @@ export class StorelyStoreImp implements StorelyStore {
         return this.eventDispatchStrategy.on(StorelyStoreImp.constants.events.CHANGED, changedListener);
     }
 
-    getManager(key: string): StorelyManagerStrategy {
-        return new this.keyManagerStrategyConstructor({
+    getItem(key: string, config?: StorelyStoreGetItemConfig): StorelyStoreItem {
+        const storeItemConfig = Object.assign({
             storely: this,
             key
-        });
+        }, config);
+        return new this.storeItemConstructor(storeItemConfig);
     }
 
     mergeEventRemovers(...eventRemovers: Array<EventListenerRemover>): EventListenerRemover {
